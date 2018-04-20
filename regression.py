@@ -19,6 +19,8 @@ class LinearRegression:
             cost = self.cost_function(X, Y, self.theta)
             self.costs[iteration] = cost
 
+        print(self.theta)
+
     def cost_function(self, X, Y, B):
         m = len(Y)
         J = np.sum((X.dot(B) - Y) ** 2) / (2 * m)
