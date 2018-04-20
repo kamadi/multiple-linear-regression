@@ -1,4 +1,4 @@
-import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -8,24 +8,16 @@ class LinearRegression:
         self.alpha = alpha
         self.iteration = iteration
         self.theta = np.array([0] * (feature_count + 1))
-        self.cost_history = []
+        self.costs = []
 
     def fit(self, X, Y):
-        self.cost_history = [0] * self.iteration
+        self.costs = [0] * self.iteration
         m = len(Y)
 
         for iteration in range(self.iteration):
-            # Hypothesis Values
-            h = X.dot(self.theta)
-            # Difference between Hypothesis and Actual Y
-            loss = h - Y
-            # Gradient Calculation
-            gradient = X.T.dot(loss) / m
-            # Changing Values of theta using Gradient
-            self.theta = self.theta - self.alpha * gradient
-            # New Cost Value
+            self.theta = self.theta - self.alpha * X.T.dot(X.dot(self.theta) - Y) / m
             cost = self.cost_function(X, Y, self.theta)
-            self.cost_history[iteration] = cost
+            self.costs[iteration] = cost
 
     def cost_function(self, X, Y, B):
         m = len(Y)
@@ -34,3 +26,8 @@ class LinearRegression:
 
     def predict(self, X):
         return self.theta.dot(X)
+
+    def plot(self):
+        x = range(self.iteration)
+        plt.scatter(self.costs, x)
+        plt.show()
